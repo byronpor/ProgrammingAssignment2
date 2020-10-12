@@ -1,15 +1,56 @@
-## Put comments here that give an overall description of what your
-## functions do
+##This function creates a special matrix
 
-## Write a short comment describing this function
+makeVector <- function(x = matrix()) {
+        ## Initialization of variable to inverse matrix
+        inv <- NULL
 
-makeCacheMatrix <- function(x = matrix()) {
+        ## Set the matrix
+        set <- function(y) {
+                m <<- y
+                inv <<- NULL
+        }
 
+        ## Get the matrix
+        get <- function() {
+          m
+        }
+
+        ## Set de inverse matrix
+        setInverse <- function(inverse){
+          inv <<- inverse
+        }
+
+        ##Get de inverse matrix
+        getInverse <- function() {
+          inv
+        }
+
+        ##Return the list of methods
+        list(set = set, get = get,
+             setInverse = setInverse,
+             getInverse = getInverse)
 }
 
+## This function computes the inverse of the special matrix returned by makeCacheMatrix
+cachemean <- function(x, ...) {
+        m <- x$getInverse()
 
-## Write a short comment describing this function
+        ##verify if the inverse matrix is different of null and return the matrix
+        if(!is.null(m)) {
+                message("getting cached data")
+                return(m)
+        }
 
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+        ##Get the matrix will be inverted
+        data <- x$get()
+
+        ##Calculate of the inverse matrix
+        m <- solve(data, ...)
+
+        ##Set the inverse matrix
+        x$setInverse(m)
+
+        ##Return the inverse matrix
+        m
 }
+
